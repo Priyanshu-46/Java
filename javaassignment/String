@@ -1,0 +1,162 @@
+What is string in java?
+A string in java is an object that represents a sequence of characters.
+Strings are immutable , meaning their value cannot be changed once created.
+
+✅ Ways to Create a String
+➤ Method 1: Using String Literal
+String x1 = "mike";
+Stored in String pool (special area in heap memory).
+Reuses memory if the same literal already exists.
+
+➤ Method 2: Using new Keyword
+String x2= new String("mike");
+Always creates a new object in heap memory , outside the String pool.
+
+# String Pool (String constant pool)
+Aspecial memory region inside  the heap that stores string literals.
+Benefit: Saves memory by reusing existing string literals instead of creating new ones.
+
+Reuse Example:
+String s1 = "mike";
+String s2 = "mike";
+System.out.println(s1==s2);// true (same refrence in pool)
+
+When using new:
+String s3 = new String("mike");
+System.out.println(s1==s3);// false   (different memory locations)
+
+Important :
+Operations like == compare references , not values.
+use   .equals() to compare values of strings.
+
+Code Example: Comparing References vs Values
+String x1 = "mike";
+String x2 = "mike";
+String x3 = new String("mike");
+
+System.out.println(x1 == x2);        // true (same pool reference)
+System.out.println(x2 == x3);        // false (heap vs pool)
+System.out.println(x2.equals(x3));   // true (same content)
+
+
+String str1 = new String("Ankur");
+String str2 = new String("Ankur");
+
+System.out.println(str1 == str2);    // false
+System.out.println(str1.equals(str2)); // true
+
+# intern() Method 
+Syntax:
+String interned = new String("mike").intern();
+
+What it does:
+➤ Checks if the value exists in the String Pool.
+➤ If yes, returns reference from the pool.
+➤ If no, adds the value to the pool and returns that reference.
+
+➤ Code Example:
+String x1 = "mike";
+String x3 = new String("mike").intern();
+
+System.out.println(x1 == x3);       // true
+System.out.println(x1.equals(x3));  // true
+
+📏 Check if a String is Empty or Null
+String str4 = null;
+String str5 = "";
+
+System.out.println(str5.length()); // 0
+System.out.println(str4.length()); // ❌ NullPointerException
+
+⚖️ Difference: Null vs Empty String
+| Property         | `null`                | `""` (Empty String)     |
+| ---------------- | --------------------- | ----------------------- |
+| Memory allocated | ❌ No                  | ✅ Yes                   |
+| Object created   | ❌ No                  | ✅ Yes                   |
+| `.length()`      | ❌ Throws Exception    | ✅ Returns 0             |
+| Usability        | Can't call any method | Can call String methods |
+
+
+🔍 How to Check if a String is Empty
+✅ Method 1: isEmpty()
+Checks if string length is 0.
+If we have a spaces in string it will return false.
+Returns: true if empty.
+
+Code Example:
+String x1 = "";
+System.out.println(x1.isEmpty()); // true
+
+✅ Method 2: length()
+You can manually check if the length is 0.
+System.out.println(x1.length() == 0); // true
+
+✅ Method 3: isBlank()
+Returns true if string is:
+Empty ("") or
+Contains only whitespaces (spaces, tabs, etc.)
+Code Example:
+String x2 = "   ";
+System.out.println(x2.isBlank()); // true
+🔸 isBlank() is available from Java 11 onwards.
+
+🧪 String Comparisons
+Strings are case-sensitive by default.
+
+✅ Using equals() method
+String str1 = "mike";
+String str2 = "mike";
+String str3 = "Mike";
+
+System.out.println(str1.equals(str2)); // true
+System.out.println(str1.equals(str3)); // false
+
+✅ Using equalsIgnoreCase() method
+Ignores case differences.
+System.out.println(str1.equalsIgnoreCase(str3)); // true
+
+📊 compareTo() Method
+Compares strings lexicographically.
+String str6 = "java";
+String str7 = "python";
+
+System.out.println(str6.compareTo(str7)); // -6
+
+➤ Output Meaning:
+0 → Both strings are equal.
+< 0 → First string is lexicographically smaller.
+> 0 → First string is lexicographically greater.
+
+🔄 String Case Conversion
+✅ toUpperCase()
+Converts all characters to uppercase.
+"java".toUpperCase(); // "JAVA"
+
+✅ toLowerCase()
+Converts all characters to lowercase.
+"JAVa".toLowerCase(); // "java"
+
+
+✂️ trim() Method
+Removes:
+Leading (front) and trailing (end) whitespaces.
+Does NOT remove spaces or special characters in between the string.
+String s = "   hello!@#   ";
+System.out.println(s.trim()); // "hello!@#"
+
+❌ trim() does not remove special characters.
+🔸 lTrim() and rTrim() are not built-in in Java. You must use regex or custom code to achieve that.
+
+🔤 charAt(index)
+Returns character at the given index.
+String x1 = "aabaacv";
+System.out.println(x1.charAt(2)); // 'b'
+
+✅ Example: Count frequency of a character
+String x1 = "aabaacv";
+int count = 0;
+
+for (int i = 0; i < x1.length(); i++) {
+    if (x1.charAt(i) == 'a') count++;
+}
+System.out.println(count); // 4
