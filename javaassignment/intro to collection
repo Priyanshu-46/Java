@@ -1,0 +1,85 @@
+🔗 Java Collection Framework Hierarchy (Focusing on List and ArrayList)
+
+Java Collection Framework is a unified architecture for storing and manipulating groups of objects. The hierarchy flows from Iterable → Collection → SequencedCollection → List → ArrayList.
+
+Let’s break this down step by step:
+🧩 1. Iterable<E> (Interface)
+➤ Top-most interface in the collection hierarchy.
+➤ Introduced in: Java 5
+
+➤ Key Method:
+Iterator<T> iterator();
+
+➤ Enables use of the enhanced for-each loop:
+for (String s : someCollection) {
+    // ...
+}
+
+📚 2. Collection<E> (Interface)
+➤ Root interface for all collection types (except maps).
+➤ Extends: Iterable<E>
+➤ Common Subinterfaces: List, Set, Queue, etc.
+
+➤ Key Methods:
+add(E e), remove(Object o), clear(), size(), contains(Object o), etc.
+
+➤ Does not maintain order or index-based access (depends on implementation).
+
+🔄 3. SequencedCollection<E> (Interface – ✅ New in Java 21 / Finalized in Java 24)
+➤ Extends: Collection<E>
+➤ Purpose: Provides a standardized way to handle ordered collections (like first and last elements).
+
+➤ Key Methods Introduced:
+getFirst(), getLast()
+addFirst(E e), addLast(E e)
+removeFirst(), removeLast()
+reversed()
+
+🔸 Applies to: List-like or deque-like structures where order matters.
+🔹 This brings better symmetry and consistency in ordered collections.
+
+🧾 4. List<E> (Interface)
+➤ Extends: SequencedCollection<E>
+➤ Represents an ordered collection with index-based access.
+➤ Duplicates allowed, insertion order preserved.
+➤ Common Implementations: ArrayList, LinkedList, Vector, Stack
+➤ Key Methods:
+
+get(int index), set(int index, E e), add(E e), remove(int index)
+indexOf(Object o), subList(), listIterator()
+
+📦 5. ArrayList<E> (Class)
+➤ Implements: List<E>, hence also a SequencedCollection, Collection, and Iterable.
+➤ Data Structure Used: Dynamic array (resizable array)
+➤ Duplicates allowed, maintains insertion order.
+
+Performance:
+get(index) → ✅ Fast (O(1))
+add(E) → ✅ Amortized O(1)
+remove(index) → ⚠️ O(n) (as elements are shifted)
+Not synchronized (not thread-safe by default).
+
+Preferred when:
+Fast random access is needed.
+Frequent additions at the end.
+
+✅ Example:
+List<String> names = new ArrayList<>();
+names.add("Ankur");
+names.add("Verma");
+System.out.println(names.get(0)); // Output: Ankur
+
+🧠 Final Hierarchy  (Java 24+):
+Iterable<E>
+   |
+   V
+Collection<E>
+   |
+   V
+SequencedCollection<E>   ← ✅ New Layer (Java 21+)
+   |
+   V
+List<E>
+   |
+   V
+ArrayList<E>
