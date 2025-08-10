@@ -159,4 +159,216 @@ int count = 0;
 for (int i = 0; i < x1.length(); i++) {
     if (x1.charAt(i) == 'a') count++;
 }
-System.out.println(count); // 4
+System.out.println(count); // 
+
+
+# startsWith() & endsWith() methods
+-> Both mehtods returns boolean values.
+-> Used to check lprefixes or suffixes of string.
+
+Syntax:
+str.startsWith("prefix"); // true if string starts with "prefix"
+str.endsWith("suffix"); // true if string ends with suffix.
+
+Example:
+String s = "Hello world!";
+System.out.println(s.strtsWith("he")); // true 
+System.out.println(s.endsWith("!"));// true
+System.out.println(s.endsWith("World")); // false
+
+#Convert Primitive data types to string
+-> Method 1: Add Empty String 
+int x= 10'
+String y = "" + x:
+System.out.println(y);  //"10"
+System.out.println(y instanceof String); // ture
+
+Method 2:
+float z = 10.3f;
+String s1 = String.valueOf(z);
+System.out.println(s1); // "10.3"
+
+boolean b = true;
+String s2 = String.valueOf(b); // "true"
+
+char ch = 'z';
+String s3 = String.valueOf(ch); // "z"
+
+System.out.println(s2); // true
+System.out.println(s3); // z
+System.out.println(s2 instanceof String); // true
+System.out.println(s3 instanceof String); // true
+
+🔸 String.valueOf() works for all primitives: int, float, char, boolean, double, long, etc.
+
+# Search in a stirng 
+conntains() Method 
+-> Checks whether a string contains a specific sequence of characters.
+->REturns: true or false 
+-> Case -sensitive
+
+
+String str = "My name is Pankaj";
+System.out.println(str.contains("name"));   // true
+System.out.println(str.contains("Name"));   // false
+
+ indexOf() Method
+➤ Returns the index of first occurrence of a substring/character.
+➤ If not found, returns -1
+➤ Case-sensitive
+
+➤ Syntax:
+int index = str.indexOf("substring");
+
+Code Example:
+String str = "My name is Pankaj;
+
+System.out.println(str.indexOf("name"));   // 3
+System.out.println(str.indexOf("Name"));   // -1
+System.out.println(str.indexOf(" Ankur")); // 11  
+
+If two parameter is given then it will start the search after the index of the second parameter.
+System.out.println(str.indexOf("e",8));  
+
+🔹 join() Method
+➤ Used to join elements of an array or any Iterable into a single string.
+➤ Requires a delimiter to separate the elements.
+
+Syntax:
+String result = String.join(delimiter, elements...);
+
+✅ Example:
+String[] words = {"Hello", "World", "Java", "Programming"};
+String result = String.join(" ", words);
+System.out.println(result); // Output: Hello World Java Programming
+🔸 join() is available from Java 8 onwards.
+
+🔁 replace() Method
+➤ Used to replace characters or substrings within a string.
+➤ Returns a new string with replacements applied (original string remains unchanged).
+
+✅ Method 1: Replace Substring
+String s = "Hello World with new Word";
+String str = s.replace("Word", "Duniya");
+System.out.println(str); // Output: Hello World with new Duniya
+
+✅ Method 2: Replace Character
+String str2 = s.replace('o', '*');
+System.out.println(str2); // Output: Hell* W*rld with new W*rd
+
+🔗 Ways of String Concatenation
+✅ Way 1: Using + Operator
+String s1 = "Hello";
+String s2 = "World";
+String result = s1 + " " + s2;
+System.out.println(result); // Hello World
+
+✅ Way 2: Using concat() Method
+String result = s1.concat(s2); // HelloWorld
+
+➕ Add whitespace between
+String result = s1.concat(" ").concat(s2); // Hello World
+What is Mutable and Immutable class
+
+🧠 Mutable vs Immutable Classes
+| Property        | Immutable Class                             | Mutable Class                             |
+| --------------- | ------------------------------------------- | ----------------------------------------- |
+| Definition      | Object **cannot be changed** after creation | Object **can be modified** after creation |
+| Example         | `String`                                    | `StringBuilder`, `StringBuffer`           |
+| Thread-safe?    | Yes (`String`)                              | Only `StringBuffer` is thread-safe        |
+| Performance     | Slower (new object on change)               | Faster for frequent modifications         |
+| Common Use Case | Constant values, keys in Map                | Dynamic strings in loops or editors       |
+
+🔐 How to Design Immutable Classes in Java
+An immutable class is one whose state cannot be changed after it is created.
+
+🧱 Design Principles:
+✅ Private and Final Fields
+Declare all class fields as private final.
+This ensures that fields are set only once and not modified later.
+private final String name;
+
+❌ No Setters
+Do not provide any setter methods.
+Prevents modification of field values after object creation.
+
+✅ Initialize via Constructor
+All fields must be initialized in the constructor.
+Ensures object is in a valid state when created.
+
+🛡️ Final Class (Optional but Recommended)
+Mark the class as final to prevent inheritance (which might introduce mutability).
+public final class Student { ... }
+
+🛡️ Defensive Copying (if using mutable fields like arrays, lists)
+If the class contains mutable objects (like List, Date, arrays), return a copy instead of the original in getters.
+
+✅ Example of an Immutable Class:
+public final class Student {
+    private final String name;
+    private final int rollNo;
+
+    public Student(String name, int rollNo) {
+        this.name = name;
+        this.rollNo = rollNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getRollNo() {
+        return rollNo;
+    }
+}
+
+🌟 Benefits of Immutable Classes
+✅ Thread-Safe: No synchronization needed; safe to use in multithreaded environments.
+✅ Reliable & Predictable: Once created, the object remains in the same state.
+✅ Caching & Reuse: Can be safely cached or reused without side effects.
+✅ HashCode Stability: Good for keys in hash-based collections (HashMap, HashSet).
+
+✂️ substring() Method in Java
+The substring() method is used to extract a part of the string.
+
+✅ Syntax Variants:
+substring(int start)
+Returns substring from start (inclusive) to the end of the string.
+String s = "JavaProgramming";
+System.out.println(s.substring(4)); // Output: Programming
+
+substring(int start, int end)
+Returns substring from start (inclusive) to end (exclusive).
+System.out.println(s.substring(0, 4)); // Output: Java
+
+🧠 Remember:
+Index starts from 0.
+end index is excluded.
+Throws StringIndexOutOfBoundsException if indices are invalid.
+
+🔹 Method 1: Using \n Escape Character
+You can insert line breaks using the newline character \n.
+String x = "Hi my name is\nAnkur\nVerma";
+System.out.println(x);
+
+⚠️ Limitation:
+➤ Becomes tedious and less readable when writing large multi-line strings.
+➤ Manual escaping needed for quotes, line breaks, and indentation.
+
+🔹 Method 2: Using Text Blocks (""")
+✅ Introduced in Java 13 (preview), Java 15+ (standard).
+
+Multiline string literal that maintains formatting and is easy to write.
+String x2 = """
+            Hi 
+            My 
+            Name 
+            is 
+            Ankur Verma
+            """;
+System.out.println(x2);
+✅ Benefits of Text Blocks:
+➤ Easy to write and maintain multiline text (like JSON, SQL, XML, HTML).
+➤ Preserves formatting and indentation.
+➤ No need to use \n for new lines.
+➤ Avoids escaping double quotes in many cases.
