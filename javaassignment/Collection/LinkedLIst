@@ -1,0 +1,90 @@
+A Linked List is a linear data structure where each element (called a node) contains:
+
+1.Data – the value it stores.
+2.Reference (or pointer) – a link to the next node in the sequence.
+
+->It differs from an array because it doesn’t store elements in contiguous memory, and you can grow/shrink it dynamically without resizing.
+
+Types of Linked Lists
+1.Singly Linked List – Each node points to the next node.
+
+2.Doubly Linked List – Each node points to both next and previous nodes.
+
+3.Circular Linked List – Last node points back to the first node.
+
+1. Key Characteristics
+➤ Order Preserved → Elements are stored in the same order they are inserted.
+➤ Allows Duplicates → No restriction on duplicate values.
+➤ Non-contiguous Memory → Unlike ArrayList, which uses a dynamic array, LinkedList nodes are scattered in memory.
+➤ Underlying Data Structure → Doubly Linked List (each node has pointers to the previous and next node).
+
+2. Difference between ArrayList and LinkedList?
+ 
+Feature	                                         ArrayList	                                                    LinkedList
+Underlying structure	           Dynamic array (elements stored in contiguous memory)	 Doubly linked list (each node has data + pointers to next & previous)
+Access (get/set)	               O(1) – Fast random access using index	                O(n) – Need to traverse from the start or end to reach an index
+Insertion/Deletion at end	               O(1) (amortized)                                                      	O(1)
+Insertion/Deletion at middle	        O(n) – Needs shifting of elements             	   O(1) if you already have the reference to the node, otherwise O(n) to find it
+Memory usage	                            Less memory (only stores data)              	More memory (stores data + 2 extra references per node)
+Iteration performance              	Faster (elements are in contiguous memory, better cache locality)	Slower due to pointer traversal
+Best use case	                Frequent access, rare insertions/deletions in the middle	Frequent insertions/deletions, rare random access
+
+2. Example:
+package p1;
+
+import java.util.LinkedList;
+
+public class LinkedListIntro {
+
+    public static void main(String[] args) {
+        LinkedList<String> str = new LinkedList<>();
+
+        // Adding elements
+        str.add("Apple");
+        str.add("Banana");
+        str.add("Mango");
+
+        // Printing using enhanced for loop
+        for (String s : str) {
+            System.out.println(s);
+        }
+
+        System.out.println("");
+
+        // Access first and last elements
+        System.out.println(str.getFirst()); // Apple
+        System.out.println(str.getLast());  // Mango
+
+        System.out.println("");
+
+        // Remove element
+        str.remove("Mango");
+
+        // Reverse the list (Java 21+ feature from SequencedCollection)
+        System.out.println(str.reversed());
+
+        // Get element at index
+        System.out.println(str.get(1)); // Banana
+
+        // This will throw IndexOutOfBoundsException
+        // System.out.println(str.get(2));
+    }
+}
+
+3. Important Notes
+
+Java 21 Addition:
+LinkedList now implements SequencedCollection
+
+→ New methods like:
+getFirst(), getLast()
+removeFirst(), removeLast()
+reversed()
+
+Performance:
+1. O(1) for adding/removing at start or end.
+2. O(n) for accessing by index (no random access like ArrayList).
+
+When to Use LinkedList
+-> Frequent insertions/deletions in the middle or ends.
+-> Not great for random access (use ArrayList instead).

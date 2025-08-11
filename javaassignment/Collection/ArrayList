@@ -1,0 +1,58 @@
+ArrayList<E>
+-> Resizable array implentation of list.
+->Stores elements in cotiguous memory like arrays.
+-> Allows random access using index.
+-> Maintains insertion order,supports duplicates , and allows null values.
+
+Features:
+->Dynamic resizing (internally uses arrays)
+-> Fast access (0(1) for get)
+
+Example:
+ArrayList<string> countries = new Array List<>();
+countries.add("India");
+countires.add("USA");
+countries.add("Germany");
+countires.add("India"); // alllows duplicates
+
+System.out.println(countries.get(0)); // India
+countries.set(1,"UK"); // replaces "USA" with "UK"
+countries.remove("India"); // removes 1st occurence
+System.out.println(countries);
+
+#  Java 21+ Example: SequencedCollection Methods
+System.out.println(countries.getFirst());     // First element
+System.out.println(countries.getLast());      // Last element
+System.out.println(countries.reversed());     // Reversed view (immutable)
+countries.removeFirst();                      // Removes first
+countries.removeLast();                       // Removes last
+
+# Immutable ArrayList in java
+
+1. How List.of() Works
+➤ Introduced in Java 9.
+➤ Creates an immutable (read-only) list.
+➤ Any attempt to:
+1. Add
+2. Remove
+3. Replace an element
+will throw java.lang.UnsupportedOperationException.
+
+2. Example:
+List<Long> newArr = List.of(34554L, 443453L, 3434L); // Immutable list
+ArrayListIntro a1 = new ArrayListIntro();
+a1.addMoney(newArr);
+
+3. Why the Error Happens
+In your addMoney() method:
+x.add(2345676543L); 
+➤ This fails because List.of() returns an immutable list.
+➤ You can read from it but cannot modify it.
+
+Error:
+java.lang.UnsupportedOperationException
+
+4. Why Use Immutable Lists?
+✅ Thread-safety (no risk of accidental modifications).
+✅ Easy to share between methods.
+✅ Good for constants or fixed configurations.
