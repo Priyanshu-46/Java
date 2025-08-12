@@ -1,0 +1,49 @@
+🔄 Iterators in Java
+What is an Iterator?
+An Iterator is an object that allows you to traverse a collection (like ArrayList, LinkedList, HashSet, etc.) one element at a time without exposing the underlying structure.
+
+Ways to Iterate over a Collection
+
+1. Using Iterator Interface
+Iterator<String> itr = arr.iterator();
+while (itr.hasNext()) {
+    String str = itr.next(); // get next element
+    System.out.println(str);
+}
+
+Key Methods:
+➤ hasNext() → returns true if more elements are available.
+➤ next() → returns the next element in the iteration.
+➤ remove() → removes the current element (optional).
+
+2. Enhanced For-Each Loop
+for (String str : arr) {
+    System.out.println(str);
+}
+
+➤ Easier syntax.
+➤ Internally uses an Iterator.
+
+3. Java 8+ forEach() Method
+arr.forEach(System.out::println);
+
+➤ Uses lambda expressions or method references.
+➤ Best for functional-style programming.
+
+4. ListIterator (for Lists only)
+ListIterator<String> listItr = arr.listIterator();
+while (listItr.hasNext()) {
+    System.out.println(listItr.next());
+}
+
+➤ Can iterate both forward and backward.
+➤ Can modify elements during iteration.
+
+⚡ Performance of ArrayList
+| Operation                        | Time Complexity  | Notes                                      |
+| -------------------------------- | ---------------- | ------------------------------------------ |
+| Access by index (`get`)      | O(1)           | Very fast (direct array access).           |
+| Add at end (`add(E e)`)      | Amortized O(1) | May trigger array resize occasionally.     |
+| Add at index                 | O(n)           | Elements after the index are shifted.      |
+| Remove at index              | O(n)           | Elements after the index are shifted left. |
+| Search by value (`contains`) | O(n)           | Must scan through the list.                |

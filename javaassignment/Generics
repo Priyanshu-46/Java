@@ -1,0 +1,99 @@
+📒 Generics in Java
+1. What Are Generics?
+Generics in Java allow you to create classes, interfaces, and methods with type parameters.
+
+This makes your code:
+➤ Type-safe → detects wrong types at compile time.
+➤ Reusable → works with any data type without rewriting code.
+➤ Flexible → works for multiple data types while keeping strong type checks.
+
+2. Syntax
+We use angle brackets < > to define a generic type.
+class ClassName<T> {
+    // T is a type parameter
+}
+Here:
+➤ T → Type parameter (can be replaced by any object type when using the class).
+➤ You can have multiple parameters: <T, U, V>.
+
+3. Advantages of Generics
+✅ Type Safety – Avoids ClassCastException at runtime.
+✅ Code Reusability – One generic class works for different data types.
+✅ Compile-time Checking – Errors detected earlier.
+✅ Eliminates Typecasting – No need to cast objects explicitly.
+
+4. Example – Generic Class
+GenericsIntro.java
+package p1;
+
+public class GenericsIntro<T, U> {
+    public T name;
+    public U id;
+
+    public GenericsIntro(T name, U id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public U getId() {
+        return id;
+    }
+
+    public T getName() {
+        return name;
+    }
+}
+GenericsImpl.java
+package p1;
+
+public class GenericsImpl {
+    public static void main(String[] args) {
+        GenericsIntro<String, Integer> a1 = new GenericsIntro<>("Ankur", 120);
+        System.out.println(a1.getId());   // 120
+        System.out.println(a1.getName()); // Ankur
+    }
+}
+
+5. Wildcards in Generics (?)
+The wildcard ? is an unknown type.
+Used when the exact type parameter is not important.
+
+5.1 Unbounded Wildcard → <?>
+Means “any type”.
+public void printList(List<?> list) {
+    for (Object obj : list) {
+        System.out.println(obj);
+    }
+}
+->We can read from list as Object, but cannot add elements (except null).
+
+5.2 Upper Bounded Wildcard → <? extends Type>
+Means “Type or any subclass of Type”.
+Use when: You want to read data but not modify it.
+public void processNumbers(List<? extends Number> list) {
+    for (Number num : list) {
+        System.out.println(num.doubleValue());
+    }
+}
+✅ Can read as Number.
+❌ Cannot safely add to the list (because you don’t know the exact subtype).
+Example calls:
+sumList(Arrays.asList(1, 2, 3));       // List<Integer>
+sumList(Arrays.asList(1.5, 2.3, 3.7)); // List<Double>
+
+5.3 Lower Bounded Wildcard → <? super Type>
+Means “Type or any superclass of Type”.
+Use when: You want to write data.
+public void addIntegers(List<? super Integer> list) {
+    list.add(10);
+    list.add(20);
+}
+✅ Can add Integer (and subclasses, if any).
+❌ Reading requires casting to Object.
+addNumbers(new ArrayList<Integer>());
+addNumbers(new ArrayList<Number>());
+addNumbers(new ArrayList<Object>());
+
+6. PECS Rule (Important for Interviews)
+➤ Producer Extends → Use extends when a collection is producing values for you.
+➤ Consumer Super → Use super when a collection is consuming values from you.
