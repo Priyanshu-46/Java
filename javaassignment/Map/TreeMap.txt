@@ -1,0 +1,81 @@
+          Map (Interface)--------------------
+             |                              |
+      -----------------                 HashMap
+      |               |
+SequencedMap     Other Map types
+   (Interface)
+       |
+   SortedMap (Interface)
+       |
+ NavigableMap (Interface)
+       |
+   AbstractMap (Class)
+       |
+    TreeMap (Class)
+
+🔷 Internal Working of TreeMap & Red-Black Tree
+A TreeMap in Java:
+➤ Implements: NavigableMap, SortedMap, and indirectly Map
+➤ Stores keys in sorted order according to:
+1. The natural ordering of keys (if keys implement Comparable)
+2. Or a custom Comparator provided in the constructor
+
+Underlying Data Structure
+TreeMap uses a Red-Black Tree internally.
+
+Red-Black Tree Basics
+A Red-Black Tree is a self-balancing binary search tree (BST) with these properties:
+1. Every node is either Red or Black.
+2. The root node is always Black.
+3. All leaf nodes (null children) are considered Black.
+4. A Red node cannot have a Red parent (no two consecutive reds).
+5. Every path from a node to its descendant leaves has the same number of Black nodes (Black height).
+
+Why Red-Black Tree?
+➤ Maintains balance → guarantees O(log n) time complexity for:
+1. Insertion
+2. Deletion
+3. Search
+➤ Avoids skewed BST problems (which can degrade to O(n)).
+
+Working in TreeMap
+🔄Insertion
+➤ Places the new key in its BST position.
+➤ Applies Red-Black Tree balancing rules using rotations and color changes.
+
+🔄Searching
+Follows the BST property: left child < parent < right child.
+
+🔄Deletion
+Removes node like in BST, then fixes tree balance using recoloring/rotations.
+
+2. Reversing TreeMap (Decreasing Order)
+➤ You can get a reverse order view of a TreeMap using:
+
+✅ Method 1: Using descendingMap()
+import java.util.*;
+
+public class ReverseTreeMapExample {
+    public static void main(String[] args) {
+        TreeMap<Integer, String> map = new TreeMap<>();
+        map.put(1, "One");
+        map.put(3, "Three");
+        map.put(2, "Two");
+        map.put(5, "Five");
+
+        System.out.println("Original TreeMap: " + map);
+
+        // Reverse order
+        NavigableMap<Integer, String> reverseMap = map.descendingMap();
+        System.out.println("Reversed TreeMap: " + reverseMap);
+    }
+}
+
+Output:
+Original TreeMap: {1=One, 2=Two, 3=Three, 5=Five}
+Reversed TreeMap: {5=Five, 3=Three, 2=Two, 1=One}
+
+✅ Method 2: Using a Comparator in Constructor
+TreeMap<Integer, String> reverseMap = new TreeMap<>(Comparator.reverseOrder());
+reverseMap.putAll(map);
+System.out.println(reverseMap);

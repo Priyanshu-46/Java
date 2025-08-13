@@ -7,3 +7,147 @@ AbstractMap (Class)
 HashMap (Class)
    ↑
 LinkedHashMap (Class)
+
+2. Features
+🔄Maintains Order
+1. Default: Insertion order (order in which keys are inserted).
+2. Can be set to access order (order based on most recently accessed) by using a special constructor.
+
+🔄Duplicates
+1. Keys → Not allowed (only one null key).
+2. Values → Allowed (can have multiple null values).
+
+🔄Performance
+Time Complexity:
+1. put() → O(1)
+2. get() → O(1)
+3. remove() → O(1)
+
+🔄Underlying Data Structure
+Hash Table + Doubly Linked List.
+
+🔄Load Factor
+Default: 0.75
+
+🔄When to use?
+When you want fast lookups (HashMap) + predictable iteration order.
+
+3. Constructors
+LinkedHashMap<K, V> lhm = new LinkedHashMap<>();
+LinkedHashMap<K, V> lhm = new LinkedHashMap<>(initialCapacity);
+LinkedHashMap<K, V> lhm = new LinkedHashMap<>(initialCapacity, loadFactor);
+LinkedHashMap<K, V> lhm = new LinkedHashMap<>(initialCapacity, loadFactor, accessOrder);
+
+accessOrder = false → insertion order (default).
+accessOrder = true → access order (useful for LRU Cache).
+
+4. Internal Working
+➤ Same as HashMap for hashing.
+
+➤ Additionally, each entry stores:
+1. before → link to previous entry
+2. after → link to next entry
+
+➤ Insertion order: The linked list preserves the order in which keys are inserted.
+➤ Access order: If accessOrder is true, whenever you call get() or put(), the accessed entry is moved to the end.
+
+✅Example 1 – Insertion Order
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExample1 {
+    public static void main(String[] args) {
+        LinkedHashMap<String, Integer> lhm = new LinkedHashMap<>();
+        lhm.put("Apple", 50);
+        lhm.put("Banana", 20);
+        lhm.put("Mango", 70);
+        lhm.put("Banana", 25); // Updates value for Banana
+
+        System.out.println("LinkedHashMap (Insertion Order):");
+        for (Map.Entry<String, Integer> entry : lhm.entrySet()) {
+            System.out.println(entry.getKey() + " → " + entry.getValue());
+        }
+    }
+}
+
+Output
+LinkedHashMap (Insertion Order):
+Apple → 50
+Banana → 25
+Mango → 70
+
+✅Example 2 – Access Order
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExample2 {
+    public static void main(String[] args) {
+        LinkedHashMap<String, Integer> lhm = new LinkedHashMap<>(4, 0.75f, true);
+
+        lhm.put("A", 1);
+        lhm.put("B", 2);
+        lhm.put("C", 3);
+        lhm.put("D", 4);
+
+        // Accessing keys
+        lhm.get("B");
+        lhm.get("A");
+
+        System.out.println("LinkedHashMap (Access Order):");
+        for (Map.Entry<String, Integer> entry : lhm.entrySet()) {
+            System.out.println(entry.getKey() + " → " + entry.getValue());
+        }
+    }
+}
+
+Output
+LinkedHashMap (Access Order):
+C → 3
+D → 4
+B → 2
+A → 1
+
+7. Removing Elements
+lhm.remove("Apple");
+
+8. LRU Cache Example using LinkedHashMap
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true); // true → access order
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity; // Remove oldest entry when capacity exceeded
+    }
+}
+
+public class LRUExample {
+    public static void main(String[] args) {
+        LRUCache<Integer, String> cache = new LRUCache<>(3);
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+        cache.get(1); // Access 1
+        cache.put(4, "D"); // Removes key 2 (least recently used)
+
+        System.out.println(cache);
+    }
+}
+
+Output
+{3=C, 1=A, 4=D}
+
+9. Key Points
+➤ Maintains order unlike HashMap.
+➤ Slightly slower than HashMap because of linked list maintenance.
+➤ Can be used for LRU cache.
+➤ Only one null key allowed.
+➤ Multiple null values allowed.
