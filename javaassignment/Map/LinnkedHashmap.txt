@@ -1,0 +1,9 @@
+Map (Interface)
+   ↑
+SequencedMap (Interface) 
+   ↑
+AbstractMap (Class)
+   ↑
+HashMap (Class)
+   ↑
+LinkedHashMap (Class)

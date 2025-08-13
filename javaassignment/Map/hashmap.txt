@@ -59,3 +59,142 @@ public class HashMapIntro {
 | `keySet()`                    | Returns set of keys              |
 | `values()`                    | Returns collection of values     |
 | `entrySet()`                  | Returns set of key-value entries |
+
+7. Iterating through HashMap 
+->Using for -each on entrySet()
+for(Map.Entry<String,Integer> entry: mp.entrySet()){
+    Systen.out.println(entry.getKey()+ "---"+ entry.getValue());
+
+}
+
+->\Using KeySet()
+for(String key : mp.keySet()){
+    System.out.println(key + "---" + mp.get(key));
+}
+
+->Using Iterator
+Iterator<Map.Entry<String,Integer>> itr mp.entrySet.iterator();
+while (itr.hasNext()){
+    Map.entry<String,Integer> entry = itr.next();
+    System.out.println(entry.getKey()+ "---" + entry.getvalue());
+
+}
+
+8. Real World use cases in projects 
+->Database Caching → Strore query results temporarily with query as key.
+->User Sessionn Management →  Map sesssion IDs to user objects.
+->Counting Occurrences → Word frequency counters in text processing.
+->Configuration Settings → Map setting names to their values.
+
+9.Points to Remember 
+->Order Not maaintained → Use  LinkedHashMap if you want insertion order.
+->Thread Safety → Use ConcurrentHashMap in multi-threaded environments.
+->Fail-Fast → Iterators throw ConcurrentModificationException if map is modified duringn iterration( except via iterator's remove()).
+->Performance Tuning → You can set intitial capacity and load factor in constructor for better performance.
+
+# Internal working of hashmap in Java
+1. Internal Data Structure
+➤ HashMap internally uses a Hash Table to store data.
+➤ A hash table is basically an array of buckets.
+➤ Bucket → Each position in the array can store multiple entries if collisions occur (via linked list or tree).
+➤ In Java 8+, if a single bucket gets too many elements (default threshold: 8), it is converted from LinkedList to a balanced Red-Black Tree to improve performance from O(n) to O(log n).
+
+2. Initial Capacity
+Default initial capacity = 16 buckets (array length).
+
+You can set capacity in the constructor:
+Map<String, String> mp = new HashMap<>(32);
+
+This means the hash table will start with 32 buckets.
+
+3. Load Factor
+Load factor = 0.75 (default).
+Formula: Threshold = Capacity × Load Factor
+
+Example:
+Initial capacity = 16
+Threshold = 16 × 0.75 = 12
+
+When the 13th entry is inserted, capacity doubles to 32.
+New threshold = 32 × 0.75 = 24.
+
+Why Load Factor Exists?
+➤ To balance time complexity and memory usage.
+Higher load factor → fewer resizes (less memory usage, but more collisions).
+➤ Lower load factor → more resizes (faster lookups, but higher memory usage).
+
+4. hashCode() in HashMap
+➤ Every Java object has a hashCode() method (from Object class).
+➤ hashCode() returns an integer representing the object’s memory-like identity (but not actual memory address).
+
+➤ HashMap uses it to determine bucket index:
+index = (hashCode(key) & (capacity - 1))
+& (capacity - 1) works because capacity is always a power of two → faster than % capacity.
+
+5. Collision in HashMap
+➤ Collision = Two different keys generate the same bucket index.
+
+How it’s handled:
+➤ Before Java 8 → Collision handled by LinkedList chaining in the bucket.
+➤ Java 8 and later:
+1. If bucket size < 8 → stored as LinkedList.
+2. If bucket size ≥ 8 → converted to Red-Black Tree for faster lookups.
+3. If bucket size reduces < 6 → Tree is converted back to LinkedList.
+
+Example:
+Map<Integer, String> map = new HashMap<>();
+map.put(1, "A");
+map.put(17, "B"); // 1 and 17 might fall into the same bucket (collision)
+
+1. Internal Data Structure
+➤ HashMap internally uses a Hash Table to store data.
+➤ A hash table is basically an array of buckets.
+➤ Bucket → Each position in the array can store multiple entries if collisions occur (via linked list or tree).
+➤ In Java 8+, if a single bucket gets too many elements (default threshold: 8), it is converted from LinkedList to a balanced Red-Black Tree to improve performance from O(n) to O(log n).
+
+2. Initial Capacity
+Default initial capacity = 16 buckets (array length).
+
+You can set capacity in the constructor:
+Map<String, String> mp = new HashMap<>(32);
+
+This means the hash table will start with 32 buckets.
+
+3. Load Factor
+Load factor = 0.75 (default).
+Formula: Threshold = Capacity × Load Factor
+
+Example:
+Initial capacity = 16
+Threshold = 16 × 0.75 = 12
+
+When the 13th entry is inserted, capacity doubles to 32.
+New threshold = 32 × 0.75 = 24.
+
+Why Load Factor Exists?
+➤ To balance time complexity and memory usage.
+Higher load factor → fewer resizes (less memory usage, but more collisions).
+➤ Lower load factor → more resizes (faster lookups, but higher memory usage).
+
+4. hashCode() in HashMap
+➤ Every Java object has a hashCode() method (from Object class).
+➤ hashCode() returns an integer representing the object’s memory-like identity (but not actual memory address).
+
+➤ HashMap uses it to determine bucket index:
+index = (hashCode(key) & (capacity - 1))
+& (capacity - 1) works because capacity is always a power of two → faster than % capacity.
+
+5. Collision in HashMap
+➤ Collision = Two different keys generate the same bucket index.
+
+How it’s handled:
+➤ Before Java 8 → Collision handled by LinkedList chaining in the bucket.
+➤ Java 8 and later:
+1. If bucket size < 8 → stored as LinkedList.
+2. If bucket size ≥ 8 → converted to Red-Black Tree for faster lookups.
+3. If bucket size reduces < 6 → Tree is converted back to LinkedList.
+
+Example:
+Map<Integer, String> map = new HashMap<>();
+map.put(1, "A");
+map.put(17, "B"); // 1 and 17 might fall into the same bucket (collision)
