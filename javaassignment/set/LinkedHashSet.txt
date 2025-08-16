@@ -1,0 +1,139 @@
+LinkedHashSet in Java
+
+Hierarchy
+java.lang.Object
+   ↳ java.util.AbstractCollection
+         ↳ java.util.AbstractSet
+               ↳ java.util.HashSet
+                     ↳ java.util.LinkedHashSet
+
+ Implements : set, sequencedSet
+ Extends :Hashset
+
+ Concepts:
+ 1. Defination 
+ -> Linked HashSet is a hash table + linked list implementationof the set interface.
+ -> It maintains inserrtion order of elements , unlike HashSet.
+
+ 2. Internal Working 
+ ->Internally uses a LinkedHashmap to store elements.
+ ->Keys : elements of the linkedhashset.
+ ->values: constant dummy object (PRESENT).
+ ->Doubly Linkedlist in LinkedHashMap preserves the order in which elements were inserted.
+ ->Uses hashCode( and equals for uniqueness (same as HashSet)).
+
+ 3. Features 
+ -> No duplicates allowed .
+ ->Maintains inserion order .
+ ->Allows null element (only one).
+ ->Faster itertion than HashSet because of linked list traversal.
+ -> Not thread-safe ( use collections.synchronizedSet() for thread safety).
+
+               4. When to Use
+➤ When you need a Set with:
+1. Uniqueness
+2. Order preservation
+3. Fast lookups (O(1) on average for add, remove, contains)
+
+5. Time Complexity
+➤ add(), remove(), contains() → O(1) average
+➤ Iteration → O(n)
+
+Constructors
+➤ LinkedHashSet() → Default capacity (16) & load factor (0.75)
+➤ LinkedHashSet(int initialCapacity)
+➤ LinkedHashSet(int initialCapacity, float loadFactor)
+➤ LinkedHashSet(Collection<? extends E> c)
+
+     
+✅Code Example:
+
+import java.util.*;
+
+public class LinkedHashSetDemo {
+    public static void main(String[] args) {
+
+        // 1. Create LinkedHashSet
+        LinkedHashSet<String> lhs = new LinkedHashSet<>();
+
+        // 2. add() → Add elements (duplicates ignored)
+        lhs.add("Apple");
+        lhs.add("Banana");
+        lhs.add("Mango");
+        lhs.add("Orange");
+        lhs.add("Apple"); // duplicate, will be ignored
+        lhs.add(null); // allows one null value
+
+        System.out.println("Initial LinkedHashSet: " + lhs);
+
+        // 3. size() → Number of elements
+        System.out.println("Size: " + lhs.size());
+
+        // 4. contains() → Check existence
+        System.out.println("Contains 'Mango'? " + lhs.contains("Mango"));
+        System.out.println("Contains 'Grapes'? " + lhs.contains("Grapes"));
+
+        // 5. isEmpty() → Check if empty
+        System.out.println("Is empty? " + lhs.isEmpty());
+
+        // 6. remove() → Remove a specific element
+        lhs.remove("Orange");
+        System.out.println("After removing Orange: " + lhs);
+
+        // 7. clone() → Shallow copy
+        @SuppressWarnings("unchecked")
+        LinkedHashSet<String> copySet = (LinkedHashSet<String>) lhs.clone();
+        System.out.println("Cloned LinkedHashSet: " + copySet);
+
+        // 8. addAll() → Add elements from another collection
+        LinkedHashSet<String> moreFruits = new LinkedHashSet<>();
+        moreFruits.add("Grapes");
+        moreFruits.add("Pineapple");
+        lhs.addAll(moreFruits);
+        System.out.println("After addAll: " + lhs);
+
+        // 9. removeAll() → Remove elements present in another collection
+        lhs.removeAll(moreFruits);
+        System.out.println("After removeAll: " + lhs);
+
+        // 10. retainAll() → Keep only common elements
+        lhs.add("Grapes");
+        lhs.add("Pineapple");
+        moreFruits.add("Apple");
+        lhs.retainAll(moreFruits);
+        System.out.println("After retainAll (common elements): " + lhs);
+
+        // 11. clear() → Remove all elements
+        lhs.clear();
+        System.out.println("After clear: " + lhs);
+
+        // 12. Iterating over LinkedHashSet
+        LinkedHashSet<Integer> numbers = new LinkedHashSet<>(Arrays.asList(10, 20, 30, 40, 50));
+
+        System.out.println("\nIterating using for-each:");
+        for (Integer num : numbers) {
+            System.out.println(num);
+        }
+
+        System.out.println("\nIterating using Iterator:");
+        Iterator<Integer> itr = numbers.iterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+
+        // 13. Using Stream API with LinkedHashSet
+        System.out.println("\nUsing Stream API (filter > 25):");
+        numbers.stream()
+               .filter(n -> n > 25)
+               .forEach(System.out::println);
+    }
+
+        // 14. Reversing the list
+        LinkedHashSet<String>str=new LinkedHashSet<>();
+        str.add("India");
+        str.add("France");
+        str.add("Russia");
+
+        //reversed the order in which the element is stored
+        System.out.println(arr.reversed());
+} 

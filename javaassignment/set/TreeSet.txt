@@ -1,0 +1,215 @@
+1. Definition & Characteristics
+➤ TreeSet is a class in Java that implements:
+1. NavigableSet → extends SortedSet → extends Set interface.
+2. Internally uses a TreeMap (Red-Black Tree) for storage.
+
+➤ Stores unique elements only (no duplicates).
+➤ Maintains ascending sorted order by default.
+
+➤ Null Handling:
+1. Only one null allowed if the set is empty initially.
+2. If comparator or natural ordering is used, inserting null after elements are present will throw NullPointerException
+
+2. Internal Implementation
+➤ Backed by TreeMap:
+1. Elements are stored as keys in a TreeMap.
+2. Values are a constant dummy object.
+
+➤ Self-balancing Red-Black Tree:
+Guarantees O(log n) for insertion, removal, and search.
+
+➤ Sorting:
+Uses natural ordering (Comparable) or a provided Comparator.
+
+3. Constructors
+➤ TreeSet() → Natural ordering of elements.
+➤ TreeSet(Collection c) → Creates a TreeSet containing elements of the collection.
+➤ TreeSet(SortedSet s) → Creates a TreeSet with the same ordering as the given SortedSet.
+➤ TreeSet(Comparator comp) → Orders elements using the provided comparator.
+
+4. Time Complexity
+| Operation         | Complexity |
+| ----------------- | ---------- |
+| Add element       | O(log n)   |
+| Remove element    | O(log n)   |
+| Search (contains) | O(log n)   |
+| Traversal         | O(n)       |
+
+5. Key Methods
+➤ Insertion & Removal
+1. add(E e) – Adds element if not already present.
+2. remove(Object o) – Removes element if present.
+3. clear() – Removes all elements.
+
+➤ Search & Retrieval
+1. contains(Object o) – Checks if element exists.
+2. first() – Returns the lowest element.
+3. last() – Returns the highest element.
+
+➤ Navigation (from NavigableSet)
+1. ceiling(E e) – Returns smallest ≥ given element.
+2. floor(E e) – Returns largest ≤ given element.
+3. higher(E e) – Returns smallest > given element.
+4. lower(E e) – Returns largest < given element.
+
+➤ View & Subsets
+1. headSet(E toElement) – Elements < toElement.
+2. tailSet(E fromElement) – Elements ≥ fromElement.
+3. subSet(E fromElement, E toElement) – Elements in range.
+
+➤ Descending Order
+descendingSet() – Returns view in reverse order.
+
+6. Ordering Rules
+➤ Natural Ordering:
+1. Elements must implement Comparable.
+2. Example: String, Integer already implement it.
+
+➤ Custom Ordering:
+1. Pass a Comparator in constructor.
+2. If elements are not comparable and no comparator is given → ClassCastException.
+
+7. Common Interview Traps
+➤ NullPointerException:
+Adding null after elements exist (due to comparison).
+
+➤ ClassCastException:
+Adding heterogeneous types without a comparator.
+
+➤ No Duplicates:
+Even if objects are different references, if compareTo() or comparator returns 0, element is considered duplicate.
+
+➤ Fail-Fast Iterator:
+Iterator throws ConcurrentModificationException if modified during iteration (except through iterator’s own remove).
+
+8. Advantages
+➤ Maintains sorted order automatically.
+➤ Efficient logarithmic time complexity.
+➤ Provides navigation methods (ceiling, floor, etc.).
+
+9. Disadvantages
+➤ Slower than HashSet for insertion/search (log n vs O(1) average).
+➤ Requires elements to be comparable.
+➤ More memory overhead than a hash-based set.
+
+10. When to Use TreeSet
+➤ When you need sorted unique elements.
+➤ When you need range queries (subSet, headSet, tailSet).
+➤ When ordering is important but fast lookup is still required.
+
+✅Code Example
+import java.util.*;
+
+public class TreeSetAllMethods {
+    public static void main(String[] args) {
+        
+        // 1. Creating TreeSet (Natural Ordering)
+        TreeSet<Integer> ts = new TreeSet<>();
+        
+        // 2. Adding elements
+        ts.add(50);
+        ts.add(20);
+        ts.add(40);
+        ts.add(10);
+        ts.add(30);
+        System.out.println("Initial TreeSet (Sorted): " + ts); // [10, 20, 30, 40, 50]
+        
+        // 3. Adding duplicate element (Ignored)
+        ts.add(20);
+        System.out.println("After adding duplicate 20: " + ts); // No change
+        
+        // 4. Removing elements
+        ts.remove(40);
+        System.out.println("After removing 40: " + ts);
+        
+        // 5. Search operations
+        System.out.println("Contains 30? " + ts.contains(30));
+        System.out.println("Contains 100? " + ts.contains(100));
+        
+        // 6. Getting first & last element
+        System.out.println("First Element: " + ts.first());
+        System.out.println("Last Element: " + ts.last());
+        
+        // 7. Navigation methods
+        System.out.println("Ceiling(25): " + ts.ceiling(25)); // >= 25 → 30
+        System.out.println("Floor(25): " + ts.floor(25));     // <= 25 → 20
+        System.out.println("Higher(30): " + ts.higher(30));   // > 30 → 50
+        System.out.println("Lower(30): " + ts.lower(30));     // < 30 → 20
+        
+        // 8. HeadSet, TailSet, SubSet
+        System.out.println("HeadSet(<30): " + ts.headSet(30));           // [10, 20]
+        System.out.println("TailSet(>=30): " + ts.tailSet(30));          // [30, 50]
+        System.out.println("SubSet(20 to 50): " + ts.subSet(20, 50));    // [20, 30]
+        
+        // 9. Descending order
+        System.out.println("Descending Set: " + ts.descendingSet());
+        
+        // 10. Iterating (Ascending)
+        System.out.print("Ascending Iteration: ");
+        for (Integer num : ts) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+        
+        // 11. Iterating (Descending)
+        System.out.print("Descending Iteration: ");
+        Iterator<Integer> descItr = ts.descendingIterator();
+        while (descItr.hasNext()) {
+            System.out.print(descItr.next() + " ");
+        }
+        System.out.println();
+        
+        // 12. Creating TreeSet with Custom Comparator (Reverse Order)
+        TreeSet<Integer> customTS = new TreeSet<>(Comparator.reverseOrder());
+        customTS.addAll(Arrays.asList(5, 15, 25, 35, 45));
+        System.out.println("Custom Comparator TreeSet (Descending): " + customTS);
+        
+        // 13. Clearing TreeSet
+        ts.clear();
+        System.out.println("TreeSet after clear(): " + ts);
+    }
+}
+
+🔄Additional Methods
+1. addAll(Collection c)
+➤ Adds all elements from another collection.
+➤ Ignores duplicates automatically (TreeSet property).
+
+2. containsAll(Collection c)
+➤ Returns true if all elements of given collection exist in the TreeSet.
+
+3. removeAll(Collection c)
+➤ Removes every element from the TreeSet that is present in the given collection.
+
+✅Code Example
+import java.util.*;
+public class TreeSetAddRemoveContainsAll {
+    public static void main(String[] args) {
+
+        // Creating first TreeSet
+        TreeSet<Integer> ts1 = new TreeSet<>();
+        ts1.add(10);
+        ts1.add(20);
+        ts1.add(30);
+        System.out.println("TreeSet 1: " + ts1); // [10, 20, 30]
+
+        // Creating second TreeSet
+        TreeSet<Integer> ts2 = new TreeSet<>();
+        ts2.add(30);
+        ts2.add(40);
+        ts2.add(50);
+        System.out.println("TreeSet 2: " + ts2); // [30, 40, 50]
+
+        // 1. addAll() → Adds all elements of ts2 into ts1 (duplicates ignored)
+        ts1.addAll(ts2);
+        System.out.println("After addAll(ts2) in ts1: " + ts1); // [10, 20, 30, 40, 50]
+
+        // 2. containsAll() → Checks if ts1 contains all elements of ts2
+        boolean allPresent = ts1.containsAll(ts2);
+        System.out.println("ts1 contains all elements of ts2? " + allPresent); // true
+
+        // 3. removeAll() → Removes all elements of ts2 from ts1
+        ts1.removeAll(ts2);
+        System.out.println("After removeAll(ts2) from ts1: " + ts1); // [10, 20]
+    }
+}

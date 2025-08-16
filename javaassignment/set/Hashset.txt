@@ -1,0 +1,114 @@
+Set and HashSet Basics 
+-> Set : Interface in java (stores unique elements ,no duplicatess).
+->HashSet: Implements set directly.
+-> Order : Not maintianed (insertion orderr is not guaranteed).
+->Underlying DAta Structure : Internally uses a hashMap to store elements.
+
+#Internal Working of HashSet 
+1. Storage Mechanism
+-> Internally , Hashset maintains a Hasmap instance .
+-> Every element you insert hashset is stored as a key in the hashmap with a constant dummy value (PRESENT).
+
+2. Addding an Element (add(E e))
+-> Calls hashCode() of the elementto find the bucket in the HashMap.
+-> If hashcode collisions occur - It uses equals() to check if the element already exists.
+->If the element does not exist , it's added ass a new key in the HasMap.
+-> If it already exists ,insertion is ignored (ensuring uniqueness).
+
+3. Hash collision Handling
+-> Uses seperate chaining in hashmap (linked list or balnced tree depending on size).
+->  Java 8+: When bucket size exceeds 8, linked list is converted to a balanced tree for performance (O(log n) lookup)
+4. Load Factorr and Rehashing 
+-> Default load factor = 0.75, intial capacity = 16.
+->When size exceeds capacity * loadfactor - hashmap rehashes(doubles capacity and rdistributed keys).
+
+Time Complexity
+➤ Average: O(1) for insertion, deletion, search.
+➤ Worst case (all collisions in same bucket): O(n) (but rare in practice).
+
+
+✅ Key Points for Interviews
+➤ HashSet internally uses HashMap (values are a dummy constant).
+➤ Relies on hashCode() and equals() to ensure uniqueness.
+➤ Order is not preserved.
+➤ Efficient due to hashing.
+
+✅Code Implementation
+import java.util.*;
+
+public class HashSetDemo {
+    public static void main(String[] args) {
+        // 1. Create a HashSet
+        HashSet<String> set = new HashSet<>();
+
+        // 2. add() → Add elements
+        set.add("Apple");
+        set.add("Banana");
+        set.add("Orange");
+        set.add("Mango");
+        set.add("Apple"); // Duplicate → ignored
+
+        System.out.println("Initial HashSet: " + set);
+
+        // 3. size() → Number of elements
+        System.out.println("Size: " + set.size());
+
+        // 4. contains() → Check if element exists returns boolean value
+        System.out.println("Contains 'Banana'? " + set.contains("Banana"));
+        System.out.println("Contains 'Grapes'? " + set.contains("Grapes"));
+
+        // 5. isEmpty() → Check if set is empty returns boolean value
+        System.out.println("Is empty? " + set.isEmpty());
+
+        // 6. remove() → Remove a specific element returns boolean value
+        set.remove("Orange");
+        System.out.println("After removing Orange: " + set);
+
+        // 7. clone() → Shallow copy
+        @SuppressWarnings("unchecked")
+        HashSet<String> copySet = (HashSet<String>) set.clone();
+        System.out.println("Cloned HashSet: " + copySet);
+
+        // 8. addAll() → Add multiple elements
+        HashSet<String> moreFruits = new HashSet<>();
+        moreFruits.add("Grapes");
+        moreFruits.add("Pineapple");
+        set.addAll(moreFruits);
+        System.out.println("After addAll: " + set);
+
+        // 9. removeAll() → Remove all from another collection
+        set.removeAll(moreFruits);
+        System.out.println("After removeAll: " + set);
+
+        // 10. retainAll() → Keep only common elements
+        set.add("Grapes");
+        set.add("Pineapple");
+        moreFruits.add("Apple");
+        set.retainAll(moreFruits);
+        System.out.println("After retainAll (common elements): " + set);
+
+        // 11. clear() → Remove all elements
+        set.clear();
+        System.out.println("After clear: " + set);
+
+        // 12. Iterating over HashSet
+        HashSet<Integer> numbers = new HashSet<>(Arrays.asList(10, 20, 30, 40, 50));
+
+        System.out.println("\nIterating using for-each:");
+        for (Integer num : numbers) {
+            System.out.println(num);
+        }
+
+        System.out.println("\nIterating using Iterator:");
+        Iterator<Integer> itr = numbers.iterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+
+        // 13. Stream API with HashSet
+        System.out.println("\nUsing Stream API (filter > 25):");
+        numbers.stream()
+               .filter(n -> n > 25)
+               .forEach(System.out::println);
+    }
+}
