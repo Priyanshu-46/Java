@@ -1,6 +1,6 @@
 ArrayList<E>
 -> Resizable array implentation of list.
-->Stores elements in cotiguous memory like arrays.
+->Stores elements in contiguous memory like arrays.
 -> Allows random access using index.
 -> Maintains insertion order,supports duplicates , and allows null values.
 
