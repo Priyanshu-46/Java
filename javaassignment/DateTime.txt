@@ -1,0 +1,137 @@
+📌 Before Java 8 – Date & Time API
+
+Main packages:
+java.util → Date, Calendar, TimeZone
+java.sql → SQL-specific date/time classes for DB work
+
+Key Points
+
+1. java.util.Date
+➤ Represents date and time (milliseconds since Epoch: Jan 1, 1970, 00:00:00 GMT).
+➤ Not thread-safe.
+➤ Months are 0-based (Jan = 0, Feb = 1) → confusing.
+➤ Deprecated methods for getting year/month/day.
+
+2. java.util.Calendar
+➤ Abstract class to manipulate dates easily.
+➤ Still mutable (not thread-safe).
+➤ Introduced constants like Calendar.YEAR, Calendar.MONTH.
+
+3. java.text.SimpleDateFormat
+➤ Used for formatting and parsing dates.
+
+Code Example – Before Java 8
+import java.util.*;
+import java.text.*;
+
+public class DateBeforeJava8 {
+    public static void main(String[] args) throws Exception {
+        // Current date/time
+        Date d = new Date();
+        System.out.println("Current Date: " + d);
+
+        // Time in milliseconds since Epoch
+        long millis = d.getTime();
+        System.out.println("Milliseconds since Epoch: " + millis);
+
+        // Formatting date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String formatted = sdf.format(d);
+        System.out.println("Formatted Date: " + formatted);
+
+        // Parsing date from String
+        String dateStr = "13-08-2025 20:15:00";
+        Date parsed = sdf.parse(dateStr);
+        System.out.println("Parsed Date: " + parsed);
+
+        // Using Calendar
+        Calendar cal = Calendar.getInstance();
+        cal.set(2025, Calendar.AUGUST, 13); // August 13, 2025
+        System.out.println("Calendar Date: " + cal.getTime());
+    }
+}
+
+📌 After Java 8 – Modern Date & Time API
+Main package: java.time
+
+Key Classes:
+1. LocalDate → Only date (yyyy-MM-dd)
+2. LocalTime → Only time (HH:mm:ss)
+3. LocalDateTime → Both date and time
+4. ZonedDateTime → Date/time with timezone
+5. Instant → Machine time (nanoseconds from Epoch)
+6. Duration & Period → Time calculations
+7. DateTimeFormatter → Thread-safe formatter
+
+Advantages over old API:
+➤ Immutable & thread-safe
+➤ Clear API (no zero-based months)
+➤ Built-in support for time zones
+➤ Easier arithmetic operations
+
+✅Code Example – After Java 8
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+public class DateAfterJava8 {
+    public static void main(String[] args) {
+        // Current Date, Time, DateTime
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        System.out.println("Current Date: " + date);
+        System.out.println("Current Time: " + time);
+        System.out.println("Current DateTime: " + dateTime);
+
+        // Formatting
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        System.out.println("Formatted DateTime: " + dateTime.format(formatter));
+
+        // Parsing
+        LocalDate parsedDate = LocalDate.parse("2025-08-13");
+        System.out.println("Parsed Date: " + parsedDate);
+
+        // Adding/Subtracting
+        LocalDate nextWeek = date.plusWeeks(1);
+        System.out.println("Next Week: " + nextWeek);
+
+        // Duration between two times(hr,min)
+        LocalTime t1 = LocalTime.of(10, 0);10:00
+        LocalTime t2 = LocalTime.of(12, 30);12:30
+        Duration duration = Duration.between(t1, t2); //150 minutes
+        System.out.println("Duration (minutes): " + duration.toMinutes());
+
+        // Period between two dates
+        Period period = Period.between(LocalDate.of(2020, 1, 1), LocalDate.now());
+        System.out.println("Period: " + period.getYears() + " years, " + 
+                           period.getMonths() + " months, " + 
+                           period.getDays() + " days");
+
+        // Working with Instant
+        Instant instant = Instant.now();
+        System.out.println("Instant (machine time): " + instant);
+    }
+}
+
+✅Output:
+Current Date: 2025-08-14
+Current Time: 05:30:31.709138300
+Current DateTime: 2025-08-14T05:30:31.709138300
+Formatted DateTime: 14-08-2025 05:30:31
+Parsed Date: 2025-08-13
+Next Week: 2025-08-21
+Duration (minutes): 150
+Period: 5 years, 7 months, 13 days
+Instant (machine time): 2025-08-14T00:00:31.725738600Z
+
+| Feature           | Before Java 8                                  | After Java 8                                     |
+| ----------------- | ---------------------------------------------- | ------------------------------------------------ |
+| Main Package      | `java.util`, `java.sql`                        | `java.time`                                      |
+| Thread Safety     | Not thread-safe                                | Thread-safe (immutable)                          |
+| Ease of Use       | Confusing (0-based months, deprecated methods) | Clear, well-structured API                       |
+| Formatting        | `SimpleDateFormat` (not thread-safe)           | `DateTimeFormatter` (thread-safe)                |
+| Time Zones        | Limited & manual handling                      | Built-in `ZoneId`, `ZonedDateTime`               |
+| Arithmetic        | Tedious manual millis calculation              | Direct methods like `plusDays()`, `minusWeeks()` |
+| Precision         | Milliseconds                                   | Nanoseconds                                      |
