@@ -1,0 +1,13 @@
+##HIBERNATE###
+Hibernate is an ORM(object Relational Mapping )framework for java.
+It is used to map java objects (classes) to database tables and vicevers.
+
+🔹 Why Hibernate? (Advantages over JDBC)
+
+->Reduces boilerplate code (no need for ResultSet, PreparedStatement, etc.).
+->Provides HQL (Hibernate Query Language) → object-oriented query language.
+->Database independent (works with Oracle, MySQL, PostgreSQL, etc.).
+->Supports automatic table creation and schema generation.
+->Provides caching (faster performance).
+->Supports transactions and integrates easily with JPA, Spring, etc.
+
