@@ -11,3 +11,282 @@ It is used to map java objects (classes) to database tables and vicevers.
 ->Provides caching (faster performance).
 ->Supports transactions and integrates easily with JPA, Spring, etc.
 
+
+Example: Entity Class Employee
+
+@Entity
+public class Employee {	
+	@Id
+	private int id;
+	private String name;
+	private float salary;
+	
+	//setters
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+
+	//Getters
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public float getSalary() {
+		return salary;
+	}
+	
+}
+
+1. @Entity - “This annotaion maps Java class to a table in the database.”
+2. @Id   - Indicates the primary key column, and is mandatory to define inside entity class
+
+# What is JPA?
+JPA (Java Persistence API) is a specification in Java that defines how to manage relational data (ORM) in Java applications.
+👉 Think of JPA as a set of rules/interfaces for object-relational mapping, but it does not provide the actual implementation.
+
+| Feature       | JPA (Java Persistence API) | Hibernate (JPA Provider)           |
+| ------------- | -------------------------- | ---------------------------------- |
+| Type          | Specification (Interface)  | Implementation (Library/Framework) |
+| Provides ORM? | No (just defines)          | Yes (does actual ORM work)         |
+| Example       | `@Entity`, `@Id`           | `Session`, caching, HQL, etc.      |
+| Similar to…   | "Interface" in Java        | "Class" that implements it         |
+
+Note:
+
+🔹 JPA = What to do
+🔹 Hibernate = How to do it (plus extra power)
+
+Hibernate Mappings
+######################
+
+a. OneToMany Mapping - One record in Table A matches with multiple record in Table B
+-> @OneToMany
+Example:
+1. One Post has many Comments
+2. One Hotel can have many reviews
+3. One Hotel can have many Bookings
+4. One Customer can place many Orders
+
+b. ManyToOne Mapping - Multiple records in Table A matches with one record in Table B
+-> @ManyToOne
+
+c. ManyToMany Mapping - In Hibernate, a Many-to-Many relationship is used when each record in one table can be associated with multiple records in another table and vice versa. 
+For example, 
+a. Student can enroll in many Courses, and a Course can have many Students.
+b. One Bus can travel to many stops, and one stop can have many buses
+
+d. OneToOne Mapping - One Record in Table A matches with exactly One Record in Table B
+-> @OneToOne
+For Example:
+One Person can have one KYC
+
+🔹 What is Normalization?
+
+Normalization is a process in databases to organize data in such a way that:
+Redundancy (duplicate data) is minimized
+Data integrity is maintained
+Database becomes easier to maintain and scalable
+
+👉 In simple words: Break big messy tables into smaller related ones to remove repetition
+🔹 Why Normalization?
+
+Without normalization:
+
+Data gets duplicated → wastes space
+Update anomalies (update in one place but forgot in another)
+Insert anomalies (you can’t insert some data without others)
+Delete anomalies (deleting one thing accidentally deletes related info)
+Normalization solves these issues.
+
+1Nf:-
+->Each column contains atommic (indivisible ) values.
+->Each column contains value of the same type.
+->Each row is unique (typically ensured by a primary key).
+->No repeating groups of column.
+
+2NF:-
+->It must be 1nf.
+->All non-key attributes must be fully functionally depend on the etire primary key.
+ -Means no non-key column should depend on only part of the primary key.
+ -no partial dependencies on primamry key.
+
+ 3NF:-
+ ->It must be 2nf.
+ ->It must not have transitive dependecies.
+  - A transitive dependency occurs when a non-key attribute ,rather than dependency directly on the primary key. 
+
+Student(ID, Name, Course1, Course2, Course3, Department)
+📌 Sample Data:
+1, Raj, Math, Science, NULL, CS
+2, Priya, English, NULL, NULL, Arts
+3, Aman, Math, English, Science, CS
+
+1NF:
+
+StudentID | Name  | Course   | Department
+----------------------------------------
+1         | Raj   | Math     | CS
+1         | Raj   | Science  | CS
+2         | Priya | English  | Arts
+3         | Aman  | Math     | CS
+3         | Aman  | English  | CS
+3         | Aman  | Science  | CS
+
+2NF:
+Students table:
+StudentID | Name  | Department
+------------------------------
+1         | Raj   | CS
+2         | Priya | Arts
+3         | Aman  | CS
+
+Enrollments Table:
+StudentID | Course
+------------------
+1         | Math
+1         | Science
+2         | English
+3         | Math
+3         | English
+3         | Science
+
+3NF:
+Students table:
+StudentID | Name  | DeptID
+---------------------------
+1         | Raj   | 101
+2         | Priya | 102
+3         | Aman  | 101
+
+Departments table:
+DeptID | DeptName
+-----------------
+101    | CS
+102    | Arts
+
+Enrollmetns table:
+StudentID | Course
+------------------
+1         | Math
+1         | Science
+2         | English
+3         | Math
+3         | English
+3         | Science
+
+What is spring Data JPA?
+Spring Data JPA is part of Spring Data that simplifies data access by providing a higher-level abstraction over JPA. It removes the need for boilerplate DAO code by generating CRUD operations automatically.
+By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA provider manually).
+
+Key Features
+
+No boilerplate code → CRUD methods already available.
+Query Methods → You can define methods just by naming convention:
+
+What is repositry layer in springboot?
+🔹 Repository Layer in Spring Boot
+
+In Spring Boot (and Spring in general), the Repository Layer is the Data Access Layer of your application.
+
+-> The Repository Layer provides utility methods,
+-> Using this utility method we can perform database CRUD Operations
+-> Example of some utility methods save(), findById(), delete(), etc.
+
+It is responsible for:
+Interacting with the database
+Performing CRUD operations (Create, Read, Update, Delete)
+Isolating database logic from business logic.
+
+############################
+What is Dependency Innjection (DI) in spring boot?
+
+Dependency Injection (DI) is a design pattern used in Spring Boot (and the Spring Framework) to achieve loose coupling between classes.
+👉 Instead of a class creating its own dependencies, the Spring IoC (Inversion of Control) container provides them.
+
+Anology:
+------------
+Imagine you're building a house. You don’t make the bricks yourself — you ask someone to provide them.
+Similarly, Spring Boot provides the objects your app needs.
+
+Why Use DI?
+a. Loose coupling between components
+b. Automatic lifecycle management (Spring manages the objects)
+
+Example Of Tightly Coupled:
+------------------------------
+
+public class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Email sent: " + message);
+    }
+}
+
+public class Notification {
+    private EmailService emailService = new EmailService(); // creating directly
+
+    public void send(String msg) {
+        emailService.sendEmail(msg);
+    }
+}
+
+
+Example Of Loosely Coupled:
+------------------------------
+
+// Step 1: Define an interface
+public interface MessageService {
+    void sendMessage(String msg);
+}
+
+// Step 2: Implement the interface
+public class EmailService implements MessageService {
+    public void sendMessage(String msg) {
+        System.out.println("Email sent: " + msg);
+    }
+}
+
+public class WhatsAppService implements MessageService {
+    public void sendMessage(String msg) {
+        System.out.println("WhatsApp message sent: " + msg);
+    }
+}
+
+// Step 3: Notification depends on the interface, not the implementation
+public class Notification {
+    private MessageService messageService;
+
+    // Inject dependency via constructor
+    public Notification(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void send(String msg) {
+        messageService.sendMessage(msg);
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        // Step 2: Create the implementation instance
+        MessageService emailService = new EmailService();
+
+        // Step 3: Inject the dependency via constructor
+        Notification notification = new Notification(emailService);
+
+        // Use the Notification service
+        notification.send("Hello! This is a test message.");
+    }
+}
