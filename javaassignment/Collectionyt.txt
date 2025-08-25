@@ -1,0 +1,372 @@
+What is Collection?
+A collection is simp;y an object that represents a gorup of objects, Known as it elements.
+
+What is Collectiono Framework ?
+It provides a set of interface and classes that help in managing groups of objects.
+
+Before the introduction of collection framework in JDK 1.2 , Java used to rrely on a variety of classes like Vector , Stack ,Hashtable and arrays to storand manipulate groups of objects.
+
+Drawbacks or limitations
+1. Inconstiency :Each class had  a differenet way of managing collections ,leading to confusionand a steep learning curve.
+2. Lack of inter-operabilty : These classes were not designed to wrok together seamlesssly.
+3. No common Interface: Ther was no common interface for all these classes which meant you couldn't write generic   algorithms that could operate on different typres of collections.
+
+
+To solve those problems , the collectioon framework was introduced in JDK 1.2.
+
+🔄Features of Collection Framework:
+✅ Unified architecture: A consistent set of interfaces for all collections.
+✅ Inter-operability: Collections can be easily interchanged and manipulated.
+✅ Reusability: Generic algorithms can be written that work with any collections.
+✅Efficiency: The framework provides efficient algorithms for basic operations like searching, sorting, and manipulation.
+
+🔷 Key Interfaces in Collection Framework:
+1. Collection: The root interface for all other collection types.
+2. List: An ordered collection that can contain duplicate elements.(e.g., ArrayList, LinkedList);
+3. Set: A collection that cannot contain duplicate elements (e.g., HashSet, TreeSet);
+4. Queue: A collection designed for holding elements prior to processing (e.g., PriorityQueue, LinkedList when used as a queue);
+5. Deque: A double-ended queue that allows insertion and removal from both ends (e.g., ArrayDeque);
+4. Map: An interface that represents a collection of key-value pairs. (e.g. HashMap, TreeMap);
+
+🔷 Hierarchy of Collection Framework:
+Iterable
+└── Collection
+    ├── List
+    │   ├── ArrayList
+    │   ├── LinkedList
+    │   ├── Vector
+    │   ├── Stack
+    │   └── CopyOnWriteArrayList
+    │
+    ├── Set
+    │   ├── HashSet
+    │   ├── LinkedHashSet
+    │   ├── TreeSet
+    │   ├── EnumSet
+    │   ├── ConcurrentSkipListSet
+    │   ├── SortedSet
+    │   └── CopyOnWriteArraySet
+    │
+    └── Queue
+        ├── LinkedList
+        ├── PriorityQueue
+        ├── Deque
+        │   ├── ArrayDeque
+        │   |── LinkedList (also Deque)
+        |   |── ConcurrentLinkedDeque
+        ├── BlockingQueue
+        │   ├── ArrayBlockingQueue
+        │   ├── LinkedBlockingQueue
+        │   ├── PriorityBlockingQueue
+        │   ├── SynchronousQueue
+        │   └── DelayQueue
+        └── ConcurrentLinkedQueue
+
+🔷 List Interface
+A List is an ordered collection that can contain duplicate elements. It allows positional access and insertion of elements.
+
+✅ Key Features of the List Interface:
+➤ Ordered
+➤ Index-Based access
+➤ Allows duplicates
+
+🌟 ArrayList
+An ArrayList is a resizable array implementation of the List interface. 
+Unlike arrays in Java, which have a fixed size, ArrayList can change its size dynamically as elements are added or removed.
+This flexibility makes it a popular choice when the number of elements in a list isn't known in advance.
+
+✅Code Implementation of ArrayList:
+package collections;
+
+import java.util.ArrayList;
+
+public class ArrayListIntro {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> arr = new ArrayList<>();
+		// adding elements
+		arr.add(1);
+		arr.add(5);
+		arr.add(80);
+		System.out.println(arr.get(2));// accessing the elements
+		System.out.println(arr.size());// accessing the size of the arrayList
+
+		System.out.println("");
+
+		// using pointer to iterate on ArrayList
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.print(arr.get(i) + " ");
+		}
+
+		System.out.println("");
+
+		// Iterating using for-each loop
+		for (int x : arr) {
+			System.out.print(x + " ");
+		}
+		
+		System.out.println("");
+
+		// check for existence of elements
+		System.out.println(arr.contains(5));
+	
+        // removing elements
+		//returns the element that is removed and also remove the element
+		int element=arr.remove(0);
+		System.out.println(element);
+		
+        //adding elements at specific index
+        arr.add(2,50);
+        system.out.println(arr); //[1, 5, 50, 80];
+
+        // setting elements at specific index
+        arr.set(2, 100);
+		System.out.println(arr); // [1, 5, 100, 80]
+
+        // clearing the ArrayList
+        arr.clear();
+        System.out.println(arr); // []
+	}
+}
+
+🔷 Internal Working of ArrayList
+➤ Unlike a regular array, which has a fixed size, an ArrayList can grow and shrink as elements are added or removed. 
+➤ This dynamic resizing is achieved by creating a new array when the current array is full and copying the elements to the new array.
+➤ Internally the ArrayList is implemented as an array of Object references. 
+➤ When you add elements to an ArrayList, you're essentially storing these elements in this internal array.
+➤ When you create an ArrayList, it has an initial capacity(default is 10). The capacity refers to the size of the internal array that holds the elements before needing to resize.
+
+🔷 Adding elements
+When we add an element to an ArrayList, the following steps occur:
+
+1. Checking Capacity: Before adding the new element, ArrayList checks if there is enough space in the internal array(elementData). IF the array is full, it needs to be resized.
+
+2. Resize if necessary: If the internal array is full, the ArrayList will create a new array with a larger capacity (usually 1.5 times the current capacity) and copy the existing elements from the old array to the new array.
+
+3. Add the Element: The new element is added to the internal array at the appropriate index, and the size is incremented.
+
+🔷 Resizing the Array
+1. Initial Capacity: By default, the initial capacityis 10. This means the internal array can hold 10 elements before it needs to grow.
+
+2. Growth Factor: When the internal array is full, a new array is created with a size 1.5 times the old array. This growth factor balances memory efficiency and resizing cost.
+
+3. Copying Elements: When resizing occurs, all elements from the old array are copied to the new array, which is an O(n) operation, where n is the number of elements in the ArrayList.
+
+🔷 Removing Elements
+1. Check Bounds: The ArrayList  checks if the index is within the valid range (0 to size - 1).
+
+2. Remove the Element: The element is removed, and all elements to the right of the removed element are shifted to the left to fill the gap.
+
+3. Reduce Size: The size is decremented by 1.
+
+✅Code Implementation:
+
+ArrayList<Integer> arr = new ArrayList<>(1000);// creating an ArrayList with initial capacity of 1000
+		// adding elements
+		System.out.println(arr.size());// gives 0
+		System.out.println(arr.get(0));// IndexOutOfBoundsException because no elements are present
+
+//There is no method to print the capacity of an ArrayList directly.
+
+🔷 Creating an ArrayList
+✅Method 1. Default constructor, creates an empty ArrayList with an initial capacity of 10
+		ArrayList<Integer> list=new ArrayList<>();
+
+✅Method 2. List is an interface, ArrayList is a class that implements the List interface.
+        List<Integer> list2=new ArrayList<>(); 
+		
+✅Method 3. Creating an ArrayList with a specified initial capacity
+		ArrayList<Integer> listWithCapacity=new ArrayList<>(20);
+		
+✅Method 4. Creating an ArrayList from another collection
+		List<String> anotherList=Arrays.asList("Apple","Banana");//fixed-size list adding and removing elements is not allowed only replacing is allowed
+		ArrayList<String> listFromCollection=new ArrayList<>(anotherList);
+
+
+🧠 Miscellaneous Ways of Creating ArrayList in Java
+
+1. Normal ArrayList
+List<String> list = new ArrayList<>();
+System.out.println(list.getClass().getName());
+
+✅Output: java.util.ArrayList
+
+➤ This is the regular ArrayList implementation.
+➤ Backed by a resizable array.
+➤ Fully mutable: you can add, remove, and update elements.
+
+2. Using Arrays.asList() with direct values
+List<String> list1 = Arrays.asList("Monday", "Tuesday");
+System.out.println(list1.getClass().getName());
+
+✅Output: java.util.Arrays$ArrayList
+
+➤ This is NOT java.util.ArrayList
+➤ It is an inner static class of java.util.Arrays called Arrays$ArrayList.
+➤ Characteristics:
+    1. Fixed-size list (backed by the given array).
+    2. You can modify elements (set()), but cannot add() or remove().
+    3. Trying list1.add("Wednesday") will throw UnsupportedOperationException.
+
+list1.set(1, "Friday");   // Works ✅
+System.out.println(list1.get(1)); // Output: Friday
+
+3. Using Arrays.asList() on an existing array
+String[] array = {"Apple", "Banana", "Cherry"};
+List<String> list2 = Arrays.asList(array);
+System.out.println(list2.getClass().getName());
+
+✅ Output: java.util.Arrays$ArrayList
+
+➤ Same as above: backed by the array itself.
+➤ Any changes in list2 are reflected in the original array (because they share memory).
+
+list2.set(0, "Mango"); 
+System.out.println(array[0]); // Output: Mango (array updated too!)
+
+4. Using List.of() (Java 9+) // Unmodifiable list can't even replace the elements unlike list made from Arrays.asList()
+List<Integer> list3 = List.of(1, 2, 3);
+System.out.println(list3.getClass().getName());
+
+✅ Output: java.util.ImmutableCollections$ListN
+
+✅ Key Points
+➤ new ArrayList<>() → java.util.ArrayList (fully dynamic, resizable).
+➤ Arrays.asList() → java.util.Arrays$ArrayList (fixed-size, backed by array).
+➤ With an existing array, modifications affect both list and array.
+➤ Arrays$ArrayList is an inner class only meant as a lightweight adapter.
+
+⚡ Quick Trap Question:
+👉 What happens if you call list1.add("Wednesday") on an Arrays.asList() list?
+✔️ Answer: Throws UnsupportedOperationException because the list is fixed-size.    
+
+🔷 Adding all elements 
+✅Method 1. In the list at the end
+        List<Integer>arr=new ArrayList<>();
+		arr.add(1);
+		arr.add(2);
+		arr.add(3);
+		
+		List<Integer>list1=List.of(4,5,6,7,8,9);
+		//adding all the elements
+		arr.addAll(list1);
+		
+		System.out.println(arr);//✅Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+✅Method 2. In the list at specific index
+         arr.addAll(2,list1);
+         System.out.println(arr);//✅Output: [1, 2, 4, 5, 6, 7, 8, 9,3]        
+
+
+🔷 Removing elements from ArrayList
+✅Method 1. By index
+        arr.remove(2);//removes the element at index 2
+        System.out.println(arr);//✅Output: [1, 2, 5, 6, 7, 8, 9,3]
+
+✅Method 2. By value
+        arr.remove(Integer.valueOf(5));//removes the first occurrence of the value 5        
+
+🔷 Converting List to Array
+String [] array = arr.toArray(new String[0]);
+👉 This creates a new array of the same type as the list and copies the elements into it.        
+👉 We pass new String[0] to tell the compiler the type of the array we are passing as a argument (Convention).
+
+🔷 Sorting the List
+✅Method 1: Collections.sort(arr);
+👉 This sorts the list in ascending order using the natural ordering of the elements.
+
+✅Method 2: arr.sort(null);
+👉 This sorts the list in ascending order using the natural ordering of 
+the elements.
+👉 null is defined here because no custom comparator is used
+
+🔷 Time Complexity of Operations in List
+➤ Accessing by index (get) is O(1).
+➤ Adding an element is O(n) in the worst case when resizing occurs.
+➤ Removing elements can be O(n) because it may involve shifting elements.
+➤ Iteration is O(n).
+
+🔷 Comparator
+It is an interface that defines a method for comparing two objects of the same type.
+It is used to sort objects in a custom order.
+
+🔷 How to use Comparator
+public class ArrayListIntro {
+
+	public static void main(String[] args) {
+		List<Integer>arr=new ArrayList<>();
+		arr.add(1);
+		arr.add(2);
+		arr.add(3);
+		
+		List<Integer>list1=List.of(4,5,6,7,8,9);
+		//adding all the elements
+		arr.addAll(2,list1);
+		
+		arr.sort(new CustomComparator());
+		System.out.println(arr); // Output: [9, 8, 7, 6, 5, 4, 3, 2, 1]
+	}
+}
+class CustomComparator implements Comparator<Integer>{
+
+	@Override
+	public int compare(Integer o1, Integer o2) {
+		return o2-o1;
+	}
+}
+👉 If we do o1-o2, it will sort in ascending order
+
+🔷 Using lambda expression
+✅ Example 1: Sorting Lexicographically
+		List<String>str=Arrays.asList("Apple", "Mango","Banana");
+		str.sort((a,b)-> a.compareTo(b));
+		//if gives negative then first will come
+		System.out.println(str); // Output: [Apple, Banana, Mango]
+
+✅ Example 2: Sorting by Length		
+		List<String>str2=Arrays.asList("Apple", "Plum","Banana");
+		str2.sort((a,b)-> a.length()-b.length());
+		System.out.println(str2);// Output: [Plum, Apple, Banana]
+    Example 3:from java 8 
+
+      List<Student> list = new ArrayList<>();
+        list.add(new Student("Charlie", 3.5));
+        list.add(new Student("Bob", 3.7));
+        list.add(new Student("Alice", 3.5));
+        list.add(new Student("Akshit", 3.9));
+
+        Comparator<Student> comparator = Comparator.comparing(Student::getGpa).reversed().thencomparing(Student::getName);
+        students.sort(comparator);
+
+##########################################################
+LinkedList
+##########################################################
+A linkedlist is a doubly-linkedlist implementation of the list and Deque interface.
+It allows for efficient insertion and removal of elements at both ends of the list.
+
+Customm Made LinkedList Implementation 
+package collections;
+
+public class LinkedListIntro {
+	Node node1=new Node();
+	Node node1 = new Node();
+	node1.value=10;
+	node1.next=null;
+
+	Node node2=new Node();
+	node2.value=2;
+	node2.next=nill;
+	node1.next=node2;
+
+	Node temp=node1;
+	while (remp!=null){
+		System.out.printnln(temp.value);
+		temp=temp.next;
+
+	}
+}
+  
+  class Node{
+	System.out.println(temp.value);
+	temp=temp.next;
+  }
