@@ -370,3 +370,17 @@ public class LinkedListIntro {
 	System.out.println(temp.value);
 	temp=temp.next;
   }
+
+A linkedlList is aal linear data structure wherre each elememt is a seperate oblect called a node . Each node contains two parts:
+1. Data: The value stord in the node .
+2. Pointer /reference: teo poinnterrs , onne points to the next node (next) and the other poinnting to previous node (previous).
+
+Performance cconsniderations 
+->LinkedList has different perdormance characteristics compared to ArryList:
+Insertion andd Deletion : LinkedList is betterr for frequent insertions and deletions in the midddle of the list because it does not require shifting elements , as in ArayList.
+Random Acess : LinkedList has sloweer random access(get(int index)) comparred to ArrayList because it has to traverrse the list from te beginning to reach the desired index.
+Memory Overhead: LinkedList requires more memory than ArrayList because each node in a LinkedList requires extra memory to store the next and the previous node.
+
+
+ 
+
