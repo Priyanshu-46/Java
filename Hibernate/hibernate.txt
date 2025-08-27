@@ -290,3 +290,49 @@ public class Main {
         notification.send("Hello! This is a test message.");
     }
 }
+
+
+What is Spring IOC ?
+ioc stands for Inversion of Control.
+👉 Normally, in Java, your code controls object creation and their dependencies (using new).
+👉 With IoC, the control is inverted → instead of the application creating objects, the Spring IoC container takes care of creating and managing them.
+So, Spring IoC is a design principle where the control of object creation, wiring, and lifecycle management is given to the Spring Framework (IoC container) instead of the developer writing new everywhere.
+
+🔹 Without IoC (Traditional Java)
+class StudentService {
+    private StudentRepository repo = new StudentRepository(); // tightly coupled
+}
+❌ Problem:
+
+->Tight coupling
+->Difficult to test
+->Changing dependencies needs code changes
+
+🔹 With IoC (Using Spring)
+@Service
+class StudentService {
+    private final StudentRepository repo;
+
+    // Constructor Injection
+    public StudentService(StudentRepository repo) {
+        this.repo = repo;
+    }
+}
+👉 Here:
+->StudentRepository is injected by Spring IoC container, not created manually.
+->Control of creating and supplying dependencies is given to Spring.
+
+🔹 How Does Spring IoC Work?
+
+->The IoC container (e.g., ApplicationContext) reads metadata (usually from annotations like @Component, @Service, @Repository, @Bean, or XML configs).
+->It creates objects called beans.
+->It injects dependencies between beans automatically using Dependency Injection (DI).
+
+🔹 Key Components in IoC
+
+1.IoC Container → Core part of Spring, responsible for creating and managing beans.
+Implementations: BeanFactory, ApplicationContext.
+
+2.Bean → An object managed by the Spring IoC container.
+
+3.Dependency Injection → The way IoC provides dependencies (via constructor, setter, or field injection).

@@ -382,5 +382,206 @@ Random Acess : LinkedList has sloweer random access(get(int index)) comparred to
 Memory Overhead: LinkedList requires more memory than ArrayList because each node in a LinkedList requires extra memory to store the next and the previous node.
 
 
+
+✅ Using LinkedList Collection Framework
+
+package collections;
+
+import java.util.LinkedList;
+
+public class LinkedListIntro {
+
+	public static void main(String[] args) {
+		LinkedList<Integer>linkedlist=new LinkedList<>();
+		✅Adding elements and getting elements
+		linkedlist.add(1);//O(1)
+		linkedlist.add(2);
+		linkedlist.add(3);
+		
+		System.out.println(linkedlist);
+		
+		//getting the value at 0th index
+		System.out.println(linkedlist.get(0)); //O(n)
+		
+		//adding the value at specific index
+		linkedlist.add(2, 5); // O(1)
+		
+		//adding at the first of the linkedlist
+		linkedlist.addFirst(0); // O(1)
+		
+		//adding at the last of the linkedlist
+		linkedlist.addLast(10); // O(1)
+		
+		System.out.println(linkedlist);
+		
+		//getting the first element
+		System.out.println(linkedlist.getFirst());
+		//getting the last element
+		System.out.println(linkedlist.getLast());
+
+		✅Removing elements
+		//removing element on specific index
+		int removedElement=linkedlist.remove(0);
+		System.out.println(removedElement);
+		
+		System.out.println(linkedlist);
+		
+		//removing the first element
+		int removed=linkedlist.remove();
+		System.out.println(removed);
+		
+		System.out.println(linkedlist);
+		
+		//removing first and last element
+		int val1=linkedlist.removeFirst();
+		int val2=linkedlist.removeLast();
+		
+		System.out.println(val1+" "+val2);
+		System.out.println(linkedlist);
+		
+		//Java 8 feature
+		boolean flag=linkedlist.removeIf(x->x%2!=0);// 5 is removed
+		System.out.println(flag); //tells that removal has taken place or not
+		
+		System.out.println(linkedlist);
+		
+		LinkedList<String> animals=new LinkedList<>(Arrays.asList("Cat","Dog","Elephant"));
+		LinkedList<String> animalsToRemove=new LinkedList<>(Arrays.asList("Dog"));
+		
+		boolean removedAnimals=animals.removeAll(animalsToRemove);
+		System.out.println(removedAnimals);
+		System.out.println(animals);// Dog is removed
+	}
+}
+
+
+
+#############################
+Vectors
+#############################
+A vector in java is a part of the java.util package  and is one of the legacy classes in java that implements the list interfce.
+It was introduced in JDk 1.0 before collection framework and is synchrinized , making it thread-safe.
+Now it is a part of the collection framework.
+Howeever , due to its synchrinization overhead , ut's generally recommended to use other modern alternativeslike ArrayList in sinle -threaded scenarios.
+Despite this, vectors is still useful in certain situations , particularly when thread safety is a concern.
+
+🔷 Key Features of Vectors
+-> Dynamic Array : Like ArrayList , vector is a dynamic array that grows automatically when more elements are added than its current capacity.
+->Synchronized : All the methods in Vector are synchronized , which make it thread-safe.This means multiple thread can work on a vector without risk of corrupting the data. However, this can introduce performance overhead in single-threaded environments.
+->Legacy Class: Vector was part of Java's original release and is considerd a legacy class. It's generally recommended to use ArrayList in single-threaded environments due to performance Considerrations.
+->Resizing Mechanisms: When the current capacity of the vector is excedded , it doubles its size by default(or increases by a specific capacity increment if provided).
+->Random Access: Similarly to arrays and ArrayList , Vector allows random access to elements ,making it efficient for accessing elements using index.
+
+
+🔷 Constructor of Vectors
+👉 Vector(): Creates a vector with an initial capacity of 10.
+👉 Vector(int initialCapacity): Creates a vector with specified initial capacity.
+👉 Vector(int initialCapacity, int capacityIncrement): Creates a vector with an initial capacity and capacity increment(how much the vector should grow when its capacity is exceeded).
+👉Vector(<Collections<? extends E>c): Creates a vector containing the elements of the specified collection.
+
+✅Code Implementation of Vector
+package collections;
+
+import java.util.Vector;
+
+public class VectorDemo {
+	public static void main(String[] args) {
+		Vector<Integer> vector = new Vector<>(3);
+
+		// can check the initial capacity
+		System.out.println(vector.capacity());
+
+		vector.add(1);
+		vector.add(1);
+		vector.add(1);
+		vector.add(1);
+
+		// New capacity=initialCapacity+capacityIncrement;
+		// By default capacityIncrement is initalValue it doubles the capacity
+		System.out.println(vector.capacity());
+
+	}
+}
+
+✅Methods of Vector
+➤ add(E e): Add an element to the end of the vector.
+➤ add(int index, E element): Insert an element at a specific index.
+➤ get(int index): Retrieve an element at a specific index.
+➤ set(int index, E element): Replace an element at a specific index.
+➤ remove(int index): Remove an element at a specific index.		
+➤ remove(Object o): Remove the first occurrence of the specified element.
+➤ size(): Return the number of elements in the vector.
+➤ isEmpty(): Check if the vector is empty.
+➤ contains(Object o): Check if the vector contains a specific element.
+➤ clear(): Remove all elements from the vector.
+
+✅Code Implementation of Vector Methods
+import java.util.Vector;
+
+public class VectorDemo {
+    public static void main(String[] args) {
+        // Create a Vector of Strings
+        Vector<String> vector = new Vector<>();
+
+        // 1. add(E e) - add element at the end
+        vector.add("Apple");
+        vector.add("Banana");
+        vector.add("Cherry");
+        System.out.println("After add: " + vector);
+
+        // 2. add(int index, E element) - insert at specific index
+        vector.add(1, "Mango");
+        System.out.println("After add at index 1: " + vector);
+
+        // 3. get(int index) - retrieve element at index
+        System.out.println("Element at index 2: " + vector.get(2));
+
+        // 4. set(int index, E element) - replace element
+        vector.set(2, "Orange");
+        System.out.println("After set at index 2: " + vector);
+
+        // 5. remove(int index) - remove element by index
+        vector.remove(3); // removes element at index 3
+        System.out.println("After remove at index 3: " + vector);
+
+        // 6. remove(Object o) - remove by value
+        vector.remove("Apple"); 
+        System.out.println("After removing 'Apple': " + vector);
+
+        // 7. size() - get number of elements
+        System.out.println("Size of vector: " + vector.size());
+
+        // 8. isEmpty() - check if empty
+        System.out.println("Is vector empty? " + vector.isEmpty());
+
+        // 9. contains(Object o) - check if element exists
+        System.out.println("Contains 'Banana'? " + vector.contains("Banana"));
+        System.out.println("Contains 'Apple'? " + vector.contains("Apple"));
+
+        // 10. clear() - remove all elements
+        vector.clear();
+        System.out.println("After clear: " + vector);
+        System.out.println("Is vector empty after clear? " + vector.isEmpty());
+    }
+}
+
+✅Output of above code:
+After add: [Apple, Banana, Cherry]
+After add at index 1: [Apple, Mango, Banana, Cherry]
+Element at index 2: Banana
+After set at index 2: [Apple, Mango, Orange, Cherry]
+After remove at index 3: [Apple, Mango, Orange]
+After removing 'Apple': [Mango, Orange]
+Size of vector: 2
+Is vector empty? false
+Contains 'Banana'? false
+Contains 'Apple'? false
+After clear: []
+Is vector empty after clear? true
+
+🔷 Synchronization and Performance
+👉 Since vector methods are synchronized, it ensures that only one thread can access the vector at a time. This makes it thread-safe but cna introduce performance overhead in single-threaded environments because synchronization adds locking and unlocking costs.
+
+👉 In moder Java applications, ArrayList is generally preferred over Vector when synchronization isn't required. For thread-safe collections, the CopyOnWriteArrayList or ConcurrentHashMap from the java.util.concurrent package are often recommended.
  
 
