@@ -585,3 +585,104 @@ Is vector empty after clear? true
 👉 In moder Java applications, ArrayList is generally preferred over Vector when synchronization isn't required. For thread-safe collections, the CopyOnWriteArrayList or ConcurrentHashMap from the java.util.concurrent package are often recommended.
  
 
+#############################
+Stack
+############################
+-> Stack extends Vector ,it is syncrnized making it thread -safe.
+LIFO structur:Stack follows the Last-In-First-Out(lifo) principle,where the last element added is the first one be removed.
+Inheritance: Stack is a subclass of Vector , which means it inherits all the eatures of  dymaic array constrained by th stack's lifo nature.
+
+Code Implementation
+method 1 
+package collections;
+import javaa.util.Stack;
+public class StackDemo {
+	public static void main (String[] args){
+		Stack<Integer> st = new Stack<>();
+		// to add elements int the stack
+		st.push(1);
+		st.push(2);
+		st.push(3);
+		st.push(4);
+		st.push(5);
+
+		// to remove th top element
+		int removedElement=st.pop();
+		System.out.println(removedElement);
+		System.out.println(st);
+
+		// to see what the top element 
+		System.out.println(st.peek());
+
+		// to check wetherr the stack is empty or not 
+		System.out.println(st.isEmpty());
+
+		// to check the size of the stack
+		System.out.println(st.size());
+
+		//to search the element 
+		//gives the index from the top
+		system.out.println(st);
+
+		//3 is at the 2nd index from the top 
+		System.out.println(st.search(3));
+	}
+		
+}
+
+#####################
+CopyOnWriteArrayList
+#####################
+->copy on write means that whenever an element is added or removed from the ArrayList, a new copy is created. this ensures that the ArrayList remains thread-safe even if multiples threads are accesssing it concurrently.
+->Read Operations : Fast and direct , since they happen on a stable list without interence from modifications.
+->The reference to the list is then updated so that subsequent reads use this new list.
+->useful when read operations are more in comparison to write operations because on writing each time a new copy is created hence memory consumption take place.
+
+❌ Problem with List and ArrayList
+package collections;
+import java.util.ArrayList;
+import java.util.List;
+public class CopyOnWriteArrayListDemo{
+
+	public static void mainz9String([] args)
+	{
+		List<String> copyArrayList = new ArrayList<>();
+	     copyArrayList.add("Milk);
+		 copyArrayList.add("Eggs");
+		 copyArrayList.add("Bread");
+		 copyArrayList.add("Meat");
+
+		 for (strin item:copyArrayList){
+			System.out.println(item);
+			if (item.equals("Eggs")){
+				copyArrayList.add("Butter");
+				System.out.println("Added Butterwhile Reading");
+
+			}
+		 }
+	System.out.println("the new updatedrray List");
+	System.out.pritnln(copyArrayList);
+	}
+
+Output:
+Milk
+Eggs
+Added Butter while Reading
+Exception in thread "main" java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1096)
+	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1050)
+	at CollectionFramework/collections.CopyOnWriteArrayListDemo.main(CopyOnWriteArrayListDemo.java:15)
+
+While Iterating we cannot modify the list, it will throw an exception.
+
+✅ Using CopyOnWriteArrayList:
+List<String>copyArrayList=new CopyOnWriteArrayList<>(); //using this we will get the
+
+⚡Output:
+Milk
+Eggs
+Added Butter while Reading
+Bread
+Meat
+The new udpated Array List
+[Milk, Eggs, Bread, Meat, Butter]
