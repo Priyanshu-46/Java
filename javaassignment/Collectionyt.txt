@@ -686,3 +686,15 @@ Bread
 Meat
 The new udpated Array List
 [Milk, Eggs, Bread, Meat, Butter]
+
+#######################
+Maps
+#######################
+In java , a map is an object that maps keys to values.It cannot contain duplicate keys,and each key can map to at most one value. Think of it as dictionary where you look up a word (key) to find its defination(value).
+Map does not extends collection interface. It extends Map interface.
+
+Key characterstics of the map interface
+->Key-value Pair : Each entries in a map consist of a key and a value.
+->Unique Keys: no two entries can have same key.
+->One value per key: Each key maps to a single value.
+->Order: some implementation maintain insertion order(linkedHashmap)

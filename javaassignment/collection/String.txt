@@ -372,3 +372,97 @@ System.out.println(x2);
 ➤ Preserves formatting and indentation.
 ➤ No need to use \n for new lines.
 ➤ Avoids escaping double quotes in many cases.
+
+################################
+String Buffer 
+################################
+A string buffer is a classs in java that is used to create and manipulate mutable strings. Unlike the regular String class, which is immutable (meaning once a String object is created, it cannot be changed), StringBuffer allows modifications without creating new objects each time.
+
+Key Features of StringBuffer:
+
+->Mutable
+You can change the contents (insert, append, delete, replace, etc.) without creating a new object.
+
+->Thread-Safe
+All methods in StringBuffer are synchronized, which makes it safe to use in multi-threaded environments.
+If you don’t need synchronization, StringBuilder (a faster alternative) is often preferred.
+
+->Capacity Handling
+A StringBuffer has a certain capacity (default is 16 characters, plus the length of the string you provide).
+When the buffer exceeds this capacity, it automatically increases (usually doubles + 2).
+
+
+Common Constructors:
+StringBuffer sb = new StringBuffer();          // empty buffer, capacity = 16
+StringBuffer sb2 = new StringBuffer(30);       // buffer with capacity 30
+StringBuffer sb3 = new StringBuffer("Hello");  // initializ
+
+Commonly Used Methods:
+
+append(String s) → adds text at the end.
+
+insert(int index, String s) → inserts at a given position.
+
+replace(int start, int end, String s) → replaces characters between indexes.
+
+delete(int start, int end) → removes characters.
+
+reverse() → reverses the sequence.
+
+capacity() → returns the current capacity.
+
+length() → returns the length of the string.
+
+charAt(int index) → returns a character at a position.
+
+Example:-
+public class StringBufferExample {
+    public static void main(String[] args) {
+        StringBuffer sb = new StringBuffer("Hello");
+
+        sb.append(" World");          // "Hello World"
+        sb.insert(5, ",");            // "Hello, World"
+        sb.replace(6, 12, "Java");    // "Hello, Java"
+        sb.delete(5, 6);              // "Hello Java"
+        sb.reverse();                 // "avaJ olleH"
+
+        System.out.println(sb);
+    }
+}
+
+####################
+STRING Buffer
+####################
+What is StringBuilder?
+
+->StringBuilder is a mutable sequence of characters in Java.
+->Like StringBuffer, it lets you modify strings (append, insert, delete, replace) without creating new objects.
+->Key difference: Unlike StringBuffer, StringBuilder is not synchronized, which makes it faster but not thread-safe.
+
+When to Use StringBuilder
+
+Use it when you need to build or modify strings frequently.
+
+Best for single-threaded environments where synchronization isn’t required.
+
+Faster than StringBuffer because it avoids the overhead of synchronization.
+
+Common Methods
+
+Almost the same as StringBuffer:
+
+append(String s) → adds text at the end.
+insert(int index, String s) → inserts at a position.
+replace(int start, int end, String s) → replaces characters.
+delete(int start, int end) → deletes characters.
+reverse() → reverses the sequence.
+capacity() → returns current buffer size.
+length() → length of the string.
+charAt(int index) → character at position.
+
+String vs StringBuffer vs StringBuilder
+Feature	String (Immutable)	                StringBuffer (Mutable, Synchronized)	StringBuilder (Mutable, Not Synchronized)
+Mutability	❌ No	                       ✅ Yes	                                ✅ Yes
+Thread-Safe	✅ Yes	                       ✅ Yes	                                 ❌ No
+Performance	Slow (new object each change)  	Slower (due to synchronization)         Fastest (no sync overhead)
+
